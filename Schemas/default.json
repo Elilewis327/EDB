@@ -1,0 +1,20 @@
+{
+    "Name" : "Default_Table",
+    "Schema" : {
+        "ID" : {
+            "Type" : "AutoNumber"
+        },
+        "NameFirst" : {
+            "Type" : "String",
+            "Size" : 15
+        },
+        "NameSecond" : {
+            "Type" : "String",
+            "Size" : 35
+        },
+        "Age" : {
+            "Type" : "Number"
+        }
+    },
+    "Version" : "0.0"
+}
