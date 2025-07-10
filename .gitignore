@@ -3,3 +3,4 @@
 .cache/
 Build/
 External/
+compile_commands.json
