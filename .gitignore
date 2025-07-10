@@ -1,4 +1,5 @@
-External
 .*
-!.gitignore
-Build
+!.gitignore  
+.cache/
+Build/
+External/
