@@ -1,42 +1,55 @@
-CC = g++
+# Compiler and archiver
+CXX = clang++
 AR = ar
-SRC_ROOT = Src
-BUILD_ROOT = Build
+CXXFLAGS = -Wall -Wpedantic -Werror -std=c++20 -g
+
+# Directory structure
+SRC_ROOT := Src
+BUILD_ROOT := Build
+EXTERNAL := External
+
+# Get all subdirectories in Src and External
 SRC_DIRS := $(shell find $(SRC_ROOT) -type d)
-CFLAGS = -Wall -Wpedantic -Werror -std=c++20 $(addprefix -I, $(SRC_DIRS))
+EXT_DIRS := $(EXTERNAL)/
 
-# All .cpp files
-SRCS := $(shell find $(SRC_ROOT) -name '*.cpp')
+# Include paths
+INCLUDES := $(addprefix -I, $(SRC_DIRS) $(EXT_DIRS))
 
-# Object files: Src/foo/bar.cpp → Build/foo/bar.o
-OBJS := $(patsubst $(SRC_ROOT)/%.cpp, $(BUILD_ROOT)/%.o, $(SRCS))
+# All .cpp files except main
+LIB_SRCS := $(filter-out $(SRC_ROOT)/Main/Main.cpp, $(shell find $(SRC_ROOT) -name '*.cpp'))
+LIB_OBJS := $(patsubst $(SRC_ROOT)/%.cpp, $(BUILD_ROOT)/%.o, $(LIB_SRCS))
 
-# Main file and output
-MAIN_OBJ := $(BUILD_ROOT)/Main/Main.o
+# Main source and object
+MAIN_SRC := $(SRC_ROOT)/Main/Main.cpp
+MAIN_OBJ := $(patsubst $(SRC_ROOT)/%.cpp, $(BUILD_ROOT)/%.o, $(MAIN_SRC))
 MAIN_EXE := $(BUILD_ROOT)/Main/Main
-LIB := $(BUILD_ROOT)/library.a
 
-all: $(BUILD_ROOT) $(LIB) $(MAIN_EXE)
+# Output library
+LIBRARY := $(BUILD_ROOT)/libproject.a
 
-# Create Build/ directories recursively
-$(BUILD_ROOT):
-	mkdir -p $(addprefix $(BUILD_ROOT)/, $(shell find $(SRC_ROOT) -type d | sed "s|^$(SRC_ROOT)/||"))
+# Default target
+all: $(MAIN_EXE)
 
-# Compile each .cpp file to .o
-$(BUILD_ROOT)/%.o: $(SRC_ROOT)/%.cpp
+# Link executable
+$(MAIN_EXE): $(LIBRARY) $(MAIN_OBJ)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $^ -o $@
 
-# Static library of everything except Main
-$(LIB): $(filter-out $(MAIN_OBJ), $(OBJS))
+# Build static library
+$(LIBRARY): $(LIB_OBJS)
+	@mkdir -p $(dir $@)
 	$(AR) rcs $@ $^
 
-# Link Main.o + lib to make final binary
-$(MAIN_EXE): $(MAIN_OBJ) $(LIB)
-	$(CC) $(CFLAGS) $^ -o $@
+# Compile all .cpp to .o
+$(BUILD_ROOT)/%.o: $(SRC_ROOT)/%.cpp
+	@mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-run: $(MAIN_EXE)
-	./$(MAIN_EXE)
-
+# Clean build artifacts
 clean:
 	rm -rf $(BUILD_ROOT)
+
+.PHONY: all clean
+
+run: 
+	./$(MAIN_EXE)

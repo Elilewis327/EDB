@@ -6,17 +6,3 @@ It will include the following features
 
 This db is intended to be highly performant, lightweight, low to medium volume, and extremely reliable.
 All columns will be indexed by default, unless specifically told not to be (do so for large blobs)
-
-
-Key:
--> invokes
-x exits
-
-Structure:
-
-Main.c  
-    -> ReadSchema.c
-    -> ProcessManager.c
-        -> DataHost.c
-        -> Interface.c
-    x
