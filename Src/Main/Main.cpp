@@ -1,14 +1,9 @@
 #include "Main.h"
+#include <ostream>
 
 int main(int argc, char * argv[])
 {
-    debug("Executed: Main.c::Main()", DEBUG, std::cout);
-
-    Json parsed_json("{\"hello\":\"This is Json\"}");
-    debug(parsed_json, DEBUG, std::cout);
+    EDB database;
     
-    ReadSchema();
-    ProcessManager();
-
     return 0;
 }

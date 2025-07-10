@@ -1,5 +1,3 @@
-#include "Common.h"
-#include "ProcessManager.h"
-#include "ReadSchema.h"
+#include "EDB.h"
 
 int main(int argc, char * argv[]);

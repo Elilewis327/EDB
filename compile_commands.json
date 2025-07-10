@@ -1,0 +1,23 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang++",
+      "-Wall",
+      "-Wpedantic",
+      "-Werror",
+      "-std=c++20",
+      "-g",
+      "-ISrc",
+      "-ISrc/EDB",
+      "-ISrc/Main",
+      "-IExternal/",
+      "-c",
+      "-o",
+      "Build/EDB/EDB.o",
+      "Src/EDB/EDB.cpp"
+    ],
+    "directory": "/Users/elilewis/Bin/EDB",
+    "file": "/Users/elilewis/Bin/EDB/Src/EDB/EDB.cpp",
+    "output": "/Users/elilewis/Bin/EDB/Build/EDB/EDB.o"
+  }
+]
