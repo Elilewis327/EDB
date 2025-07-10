@@ -1,2 +1,0 @@
-Completion:
-  IncludeInsertion: false  # ❗ disables auto-inserting `#include` directives
