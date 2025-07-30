@@ -1,17 +1,22 @@
 #include "EDB.h"
 
-std::ostream *EDB::LoggingService::LogOutputStream = &std::cout;
-
-void EDB::LoggingService::StartLoggingService(std::ostream *OutputStream) {
-  LoggingService::LogOutputStream = OutputStream;
+EDB::LoggingService::LoggingService(std::ostream *OutputStream) {
+  this->LogOutputStream = OutputStream;
   LoggingService::Log(std::string("Logger session started at ") +
                       std::string(Utility::GetTimestamp()) + std::string("."), SYSINFO);
 }
 
-void EDB::LoggingService::StopLoggingService() {
+EDB::LoggingService::~LoggingService() {
   LoggingService::Log(std::string("Logger session ended at ") +
-                      std::string(Utility::GetTimestamp()) + std::string("."), SYSINFO);
-  LoggingService::LogOutputStream = nullptr;
+                     std::string(Utility::GetTimestamp()) + std::string("."), SYSINFO);
+}
+
+EDB::LoggingService::LogTypes EDB::LoggingService::GetLoggingType(std::string LoggingType){
+  return LogMap[LoggingType];
+}
+
+void EDB::LoggingService::SetLogVerbosity(EDB::LoggingService::LogTypes Level){
+  LogVerbosity = Level;
 }
 
 void EDB::LoggingService::Log(std::string Message, LogTypes LogLevel) {
@@ -19,7 +24,7 @@ void EDB::LoggingService::Log(std::string Message, LogTypes LogLevel) {
     return;
   }
 
-  if (LogLevel <= Configuration::LogVerbosity) {
+  if (LogLevel <= LogVerbosity) {
     *LoggingService::LogOutputStream << Utility::GetTimestamp() << ": "
                                      << Message << std::endl;
   }

@@ -1,10 +1,10 @@
 #include "EDB.h"
 
-std::time_t EDB::Utility::Time = std::time(nullptr);
-
 std::string EDB::Utility::GetTimestamp() {  
   char *Timestamp = new char[50];
-  std::strftime(Timestamp, 50, "%FT%T", std::gmtime(&Utility::Time));
+  std::time_t Time = std::time(nullptr);
+  std::strftime(Timestamp, 50, "%FT%T", std::gmtime(&Time));
+
   return std::string(Timestamp);
 }
 

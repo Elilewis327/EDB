@@ -1,8 +1,8 @@
 {
-    "Schemas": [
+    "Schemas": 
         {
-            "default": "/Users/elilewis/Bin/EDB/Schemas/default.json"
-        }
-    ],
+            "default": "/Users/elilewis/Bin/EDB/Schemas/default.json",
+            "test":"/Users/elilewis/Bin/EDB/Schemas/test.json"
+        },
     "MaxLogLevel": "INFO"
 }
